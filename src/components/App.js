@@ -1,4 +1,10 @@
 import React from 'react';
 import '../styles/App.css';
-
-export default () => <h1>Hello World</h1>
+import { Provider } from 'react-redux'
+import store from '../redux/store'
+import Example from './Example'
+export default () => <div>
+  <Provider store={store}>
+    <Example />
+  </Provider>
+</div>
