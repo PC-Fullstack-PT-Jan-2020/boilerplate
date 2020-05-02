@@ -8,7 +8,7 @@ const RESET_ACTION = "example/RESET_ACTION"
 
 // 3. initial state
 const initialState = {
-  example: "example"
+  example: "example",
 }
 
 // 4. reducer
