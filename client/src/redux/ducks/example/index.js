@@ -1,4 +1,5 @@
 // 1. imports
+import axios from 'axios'
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 
@@ -15,7 +16,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case EXAMPLE_ACTION:
-      return { ...state, example: "foobar" }
+      return { ...state, example: action.payload }
     case RESET_ACTION:
       return { ...state, example: initialState.example }
     default:
@@ -34,9 +35,21 @@ function someAsyncAction() {
   return dispatch => {
     setTimeout(() => {
       dispatch({
-        type: EXAMPLE_ACTION
+        type: EXAMPLE_ACTION,
+        payload: 'hello async from timer!'
       })
-    }, 1000)
+    }, 3000)
+  }
+}
+
+function getExampleData() {
+  return dispatch => {
+    axios.get('/api').then(resp => {
+      dispatch({
+        type: EXAMPLE_ACTION,
+        payload: resp.data
+      })
+    })
   }
 }
 
@@ -54,10 +67,11 @@ export function useExample() {
   const syncaction = () => dispatch(someSyncAction())
   const asyncaction = () => dispatch(someAsyncAction())
   const reset = () => dispatch(resetAction())
+  const getExample = () => dispatch(getExampleData())
 
   useEffect(() => {
     console.log("mounting component")
   }, [])
 
-  return { example, syncaction, asyncaction, reset }
+  return { example, syncaction, asyncaction, reset, getExample }
 }

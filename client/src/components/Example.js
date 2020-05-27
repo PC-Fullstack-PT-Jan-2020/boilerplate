@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useExample } from '../hooks'
 import '../styles/Example.css'
 
 export default () => {
-  const { example, syncaction, asyncaction, reset } = useExample()
+  const { example, syncaction, asyncaction, reset, getExample } = useExample()
+  useEffect(() => {
+    getExample()
+  })
   return (
     <div className="Example">
       <h2>{example}</h2>
