@@ -3,6 +3,7 @@
     "host": "localhost",
     "user": "root",
     "password": "",
-    "database": "db_name"
-  }
+    "database": "example"
+  },
+  "secret": "2aXe-mrWMFPEyCaNpUYjKt$qramat_4xECWZ_a&?J-kdt4bC-!d2WFfxmT8z=crb"
 }
