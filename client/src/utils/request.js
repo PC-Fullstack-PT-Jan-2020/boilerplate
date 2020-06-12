@@ -53,7 +53,7 @@ class Request {
     }
 }
 
-class AuthService {
+export class AuthService {
     static login = (username, password) => {
         const userToLogin = {
             username: username,
@@ -80,6 +80,8 @@ class AuthService {
             res(true)
         })
     }
+
+    static isAuthenticated = () => Storage.getItem('authToken')
 }
 
 const api = new Request()
