@@ -5,21 +5,25 @@ import api from '../../../utils/request'
 
 // 2. action definitions
 const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS'
+const LOGIN_PENDING = 'auth/LOGIN_PENDING'
 const LOGOUT = 'auth/LOGOUT'
 
 // 3. initial state
 const initialState = {
     example: '',
-    isAuthenticated: false
+    isAuthenticated: false,
+    pending: false,
 }
 
 // 4. reducer
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LOGIN_PENDING:
+        return {...state, pending: true}
     case LOGIN_SUCCESS:
-        return {...state, isAuthenticated: true}
+        return {...state, isAuthenticated: true, pending: false}
     case LOGOUT:
-        return {...state, isAuthenticated: false}
+        return {...state, isAuthenticated: false, pending: false}
     default:
         return state
   }
