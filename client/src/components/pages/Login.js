@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../../hooks'
 
 export default (props) => {
-	const { login } = useAuth()
+	const { login, logout } = useAuth()
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	function handleSubmit(e) {
@@ -17,6 +17,7 @@ export default (props) => {
 				<input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
 				<input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
 				<button>submit</button>
+				<button onClick={logout}>logout</button>
 			</form>
 		</div>
 	)
