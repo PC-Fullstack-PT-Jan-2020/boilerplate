@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import Example from './Example'
-import Dash from './Dash'
+import Dash from './pages/Dash'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import AuthRoute from '../utils/AuthRoute'

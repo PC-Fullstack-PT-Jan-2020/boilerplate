@@ -9,14 +9,19 @@ const LOGOUT = 'auth/LOGOUT'
 
 // 3. initial state
 const initialState = {
-    example: ''
+    example: '',
+    isAuthenticated: false
 }
 
 // 4. reducer
 export default (state = initialState, action) => {
   switch (action.type) {
+    case LOGIN_SUCCESS:
+        return {...state, isAuthenticated: true}
+    case LOGOUT:
+        return {...state, isAuthenticated: false}
     default:
-      return state
+        return state
   }
 }
 
@@ -54,10 +59,10 @@ function signupUser(username, password) {
 // 6. custom hook
 export function useAuth() {
   const dispatch = useDispatch()
-  const example = useSelector(appState => appState.authState.example)
+  const isAuthenticated = useSelector(appState => appState.authState.isAuthenticated)
   const login = (username, password) => dispatch(loginUser(username, password))
   const signup = (username, password) => dispatch(signupUser(username, password))
   const logout = () => dispatch(logoutUser())
 
-  return { login, logout, signup }
+  return { login, logout, signup, isAuthenticated }
 }
