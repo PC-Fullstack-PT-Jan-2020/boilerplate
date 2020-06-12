@@ -4,7 +4,7 @@ const conn = require('../db.js')
 
 // conn.query(sql , [], (err, results, fields) => {})
 router.get('/dashboard', (req, res, next) => {
-  res.json({message: 'protected'})
+  res.status(200).json({message: 'protected'})
 })
 
 module.exports = router
