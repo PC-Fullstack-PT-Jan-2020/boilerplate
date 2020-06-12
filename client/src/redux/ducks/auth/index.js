@@ -2,6 +2,7 @@
 import { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import api from '../../../utils/request'
+import { AuthService }  from '../../../utils/request'
 
 // 2. action definitions
 const LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS'
@@ -11,7 +12,8 @@ const LOGOUT = 'auth/LOGOUT'
 // 3. initial state
 const initialState = {
     example: '',
-    isAuthenticated: false,
+    // on load get if user is authenticated
+    isAuthenticated: AuthService.isAuthenticated(),
     pending: false,
 }
 
@@ -67,6 +69,7 @@ export function useAuth() {
   const login = (username, password) => dispatch(loginUser(username, password))
   const signup = (username, password) => dispatch(signupUser(username, password))
   const logout = () => dispatch(logoutUser())
+  const testProtected = () => api.get('/dashboard')
 
-  return { login, logout, signup, isAuthenticated }
+  return { login, logout, signup, isAuthenticated, testProtected }
 }

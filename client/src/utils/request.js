@@ -17,15 +17,21 @@ class Storage {
 class Request {
     constructor(config = {}) {
         this.prefix = config.prefix || '/api'
+        this.req = axios.create({})
     }
 
     request = (url, method, data) => {
         const urlPath = this.prefix + url
+        const token = Storage.getItem('authToken')
+        // TODO: check expiry
+        if (token) {
+            this.req.defaults.headers.common['Authorization'] = `Bearer ${token}`
+        }
         let prom
         if (data) {
-            prom = axios[method](urlPath, data)
+            prom = this.req[method](urlPath, data)
         } else {
-            prom = axios[method](urlPath)
+            prom = this.req[method](urlPath)
         }
         return new Promise((res, rej) => {
             prom.then(resp => {
@@ -81,7 +87,11 @@ export class AuthService {
         })
     }
 
-    static isAuthenticated = () => Storage.getItem('authToken')
+    static checkToken(token) {
+        
+    }
+
+    static isAuthenticated = () => !!Storage.getItem('authToken')
 }
 
 const api = new Request()

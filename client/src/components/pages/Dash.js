@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAuth } from '../../hooks'
 
 export default (props) => {
-  const { logout } = useAuth()
+  const { logout, testProtected } = useAuth()
+  useEffect(() => {
+    testProtected()
+  }, [])
   return (
     <div className="Dash">
       <h2>dashboard</h2>
