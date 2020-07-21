@@ -18,7 +18,7 @@ const TRY_SWITCH_TIME = 'timebox/TRY_SWITCH_TIME'
 
 let id = 1
 class Timebox {
-    constructor(description, duration, type = 'soft') {
+    constructor(description = '', duration = 1, type = 'soft') {
         this.id = id++
         this.description = description
         this.time = duration * 1000 * 60 // convert to milliseconds
@@ -28,6 +28,7 @@ class Timebox {
         this.type = type
         this.editable = false
         this.playing = false
+        this.saved = false
     }
 }
 
@@ -37,7 +38,7 @@ const timeList = [minToMs(1), minToMs(10), minToMs(30), minToMs(60)]
 // 3. initial state
 const initialState = {
   timeboxes: [
-      {...new Timebox('timebox one', 1), editable: false}
+      {...new Timebox('timebox one', 1), editable: false, saved: true}
   ],
   times: timeList,
   boxCache: {},
@@ -46,6 +47,14 @@ const initialState = {
 // 4. reducer
 export default (state = initialState, action) => {
   switch (action.type) {
+    case ADD_BOX:
+        if (state.timeboxes.find(item => !item.saved)) {
+            return {...state}
+        }
+        return {
+            ...state,
+            timeboxes: [...state.timeboxes, {...new Timebox(), editable: true}]
+        }
     case TOGGLE_BOX_TYPE:
         return {
             ...state,
@@ -63,7 +72,7 @@ export default (state = initialState, action) => {
         return {
             ...state,
             boxCache: copiedCacheSave,
-            timeboxes: state.timeboxes.map(item => item.id === action.payload ? {...item, editable: false} : item)
+            timeboxes: state.timeboxes.map(item => item.id === action.payload ? {...item, editable: false, saved: true} : item)
         }
     case START_BOX:
         return {
@@ -124,6 +133,13 @@ export default (state = initialState, action) => {
 }
 
 // 5. action creators
+
+function addBox() {
+    return {
+        type: ADD_BOX,
+    }
+}
+
 function toggleBoxType(id) {
     return {
         type: TOGGLE_BOX_TYPE,
@@ -200,6 +216,7 @@ export function useTimebox() {
   const dispatch = useDispatch()
   const timeboxes = useSelector(appState => appState.timeboxState.timeboxes)
   const times = useSelector(appState => appState.timeboxState.times)
+  const addTimeBox = () => dispatch(addBox())
   const toggleType = (id) => dispatch(toggleBoxType(id))
   const switchTime = (id, time) => dispatch(trySwitchTime(id, time))
   const saveTimeBox = (id) => dispatch(saveBox(id))
@@ -213,6 +230,7 @@ export function useTimebox() {
   return { 
       timeboxes,
       times,
+      addTimeBox,
       toggleType,
       switchTime,
       saveTimeBox,

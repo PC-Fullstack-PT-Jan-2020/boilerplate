@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { List, ListItem, ListItemText, TextField, Button, ButtonGroup, FormControlLabel, Switch } from '@material-ui/core';
 import DoneIcon from '@material-ui/icons/Done'
 import EditIcon from '@material-ui/icons/Edit'
+import AddIcon from '@material-ui/icons/Add'
 import UndoIcon from '@material-ui/icons/Undo';
 import Playback from './Playback'
 import { useTimebox } from '../hooks'
@@ -11,6 +12,7 @@ export default () => {
   const {
     timeboxes,
     times,
+    addTimeBox,
     toggleType,
     switchTime,
     saveTimeBox,
@@ -85,6 +87,9 @@ export default () => {
           )
         })}
       </List>
+      <Button onClick={addTimeBox}>
+        <AddIcon></AddIcon>
+      </Button>
     </div>
   )
 }
